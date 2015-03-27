@@ -51,4 +51,24 @@ public class Problem {
     public void setDiffculty(Diffculty diffculty) {
         this.diffculty = diffculty;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "id=" + id +
+                ", acceptance=" + acceptance +
+                ", status=" + status +
+                ", url='" + url + '\'' +
+                ", title='" + title + '\'' +
+                ", diffculty=" + diffculty +
+                '}';
+    }
 }
