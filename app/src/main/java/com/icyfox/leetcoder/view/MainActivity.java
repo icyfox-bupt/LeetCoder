@@ -1,10 +1,14 @@
-package com.icyfox.leetcoder;
+package com.icyfox.leetcoder.view;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.Menu;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.icyfox.leetcoder.R;
+import com.icyfox.leetcoder.adapter.ProblemAdapter;
 import com.icyfox.leetcoder.bean.Diffculty;
 import com.icyfox.leetcoder.bean.Problem;
 import com.icyfox.leetcoder.bean.Status;
@@ -17,9 +21,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends Activity {
 
-    private TextView tv;
+    private ListView list;
+    private ProblemAdapter adapter;
+    private List<Problem> problems;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +40,11 @@ public class MainActivity extends Activity {
     }
 
     private void init(){
-        tv = (TextView) findViewById(R.id.tv);
+        list = (ListView) findViewById(R.id.problemlist);
+        problems = new ArrayList<>();
+        adapter = new ProblemAdapter(this, problems);
+        list.setAdapter(adapter);
+        list.setEmptyView(findViewById(R.id.ll_empty));
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get("https://leetcode.com/problemset/algorithms/", new TextHttpResponseHandler() {
@@ -42,9 +56,8 @@ public class MainActivity extends Activity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                tv.setText("");
-
                 resolveProblem(responseString);
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -69,8 +82,14 @@ public class MainActivity extends Activity {
                 problem.setAcceptance( (int)(Double.parseDouble(tds.get(3).text().replace("%", "")) * 10 ));
                 problem.setDiffculty(Diffculty.fromInteger( Integer.parseInt(tds.get(4).attr("value"))));
             }
-            tv.append(problem.toString()+"\n");
+            if (!problem.empty())
+                problems.add(problem);
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 }

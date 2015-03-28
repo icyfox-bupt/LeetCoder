@@ -1,5 +1,7 @@
 package com.icyfox.leetcoder.bean;
 
+import android.text.TextUtils;
+
 /**
  * Created by icyfox on 2015/3/26.
  */
@@ -71,4 +73,10 @@ public class Problem {
                 ", diffculty=" + diffculty +
                 '}';
     }
+
+    public boolean empty(){
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(url)) return true;
+        return false;
+    }
+
 }
