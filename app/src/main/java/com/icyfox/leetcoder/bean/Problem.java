@@ -2,10 +2,12 @@ package com.icyfox.leetcoder.bean;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
+
 /**
  * Created by icyfox on 2015/3/26.
  */
-public class Problem {
+public class Problem implements Serializable{
 
     private int id;
     private int acceptance;

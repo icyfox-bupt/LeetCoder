@@ -1,9 +1,12 @@
 package com.icyfox.leetcoder.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -12,6 +15,7 @@ import com.icyfox.leetcoder.adapter.ProblemAdapter;
 import com.icyfox.leetcoder.bean.Diffculty;
 import com.icyfox.leetcoder.bean.Problem;
 import com.icyfox.leetcoder.bean.Status;
+import com.icyfox.leetcoder.utils.BaseActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -24,7 +28,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     private ListView list;
     private ProblemAdapter adapter;
@@ -45,6 +49,7 @@ public class MainActivity extends Activity {
         adapter = new ProblemAdapter(this, problems);
         list.setAdapter(adapter);
         list.setEmptyView(findViewById(R.id.ll_empty));
+        list.setOnItemClickListener(itemClick);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get("https://leetcode.com/problemset/algorithms/", new TextHttpResponseHandler() {
@@ -86,6 +91,16 @@ public class MainActivity extends Activity {
                 problems.add(problem);
         }
     }
+
+    private AdapterView.OnItemClickListener itemClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Problem problem = problems.get(position);
+            Intent it = new Intent(activity, ProblemActivity.class);
+            it.putExtra("problem", problem);
+            startActivity(it);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
