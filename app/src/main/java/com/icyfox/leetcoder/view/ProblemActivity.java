@@ -18,6 +18,9 @@ import org.apache.http.Header;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+/**
+ * Activity show problem.
+ */
 public class ProblemActivity extends BaseActivity {
 
     private String url;
