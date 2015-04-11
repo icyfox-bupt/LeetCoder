@@ -2,26 +2,28 @@ package com.icyfox.leetcoder.bean;
 
 import android.text.TextUtils;
 
+import com.orm.SugarRecord;
+
 import java.io.Serializable;
 
 /**
  * Created by icyfox on 2015/3/26.
  */
-public class Problem implements Serializable{
+public class Problem extends SugarRecord<Problem> implements Serializable{
 
-    private int id;
+    private int pid;
     private int acceptance;
     private Status status;
     private String url;
     private String title;
     private Diffculty diffculty;
 
-    public int getId() {
-        return id;
+    public int getPid() {
+        return pid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 
     public int getAcceptance() {
@@ -67,7 +69,7 @@ public class Problem implements Serializable{
     @Override
     public String toString() {
         return "Problem{" +
-                "id=" + id +
+                "pid=" + pid +
                 ", acceptance=" + acceptance +
                 ", status=" + status +
                 ", url='" + url + '\'' +

@@ -50,7 +50,7 @@ public class ProblemAdapter extends BaseAdapter{
         tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
 
         Problem problem = problemList.get(position);
-        tvId.setText(problem.getId() + "");
+        tvId.setText(problem.getPid() + "");
         tvTitle.setText(problem.getTitle());
         return convertView;
     }

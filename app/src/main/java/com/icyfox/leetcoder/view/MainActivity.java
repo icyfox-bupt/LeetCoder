@@ -17,6 +17,8 @@ import com.icyfox.leetcoder.bean.Status;
 import com.icyfox.leetcoder.utils.BaseActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.orm.SugarDb;
+import com.orm.SugarRecord;
 
 import org.apache.http.Header;
 import org.jsoup.Jsoup;
@@ -50,7 +52,12 @@ public class MainActivity extends BaseActivity {
         list.setEmptyView(findViewById(R.id.ll_empty));
         list.setOnItemClickListener(itemClick);
 
+        List<Problem> dbList = SugarRecord.listAll(Problem.class);
+        problems.addAll(dbList);
+        adapter.notifyDataSetChanged();
+
         AsyncHttpClient client = new AsyncHttpClient();
+        if (problems.size() == 0)
         client.get("https://leetcode.com/problemset/algorithms/", new TextHttpResponseHandler() {
 
             @Override
@@ -80,14 +87,16 @@ public class MainActivity extends BaseActivity {
             Problem problem = new Problem();
             if (tds.size() > 0) {
                 problem.setStatus(Status.fromString(tds.get(0).getElementsByTag("span").get(0).className()));
-                problem.setId( Integer.parseInt(tds.get(1).text()));
+                problem.setPid(Integer.parseInt(tds.get(1).text()));
                 problem.setTitle(tds.get(2).getElementsByTag("a").get(0).text());
                 problem.setUrl(tds.get(2).getElementsByTag("a").get(0).attr("href"));
                 problem.setAcceptance( (int)(Double.parseDouble(tds.get(3).text().replace("%", "")) * 10 ));
                 problem.setDiffculty(Diffculty.fromInteger( Integer.parseInt(tds.get(4).attr("value"))));
             }
-            if (!problem.empty())
+            if (!problem.empty()) {
                 problems.add(problem);
+            }
+            Problem.saveInTx(problems);
         }
     }
 
