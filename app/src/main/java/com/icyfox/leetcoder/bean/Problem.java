@@ -16,7 +16,7 @@ public class Problem extends SugarRecord<Problem> implements Serializable{
     private Status status;
     private String url;
     private String title;
-    private Diffculty diffculty;
+    private Difficulty difficulty;
 
     public int getPid() {
         return pid;
@@ -50,12 +50,12 @@ public class Problem extends SugarRecord<Problem> implements Serializable{
         this.url = url;
     }
 
-    public Diffculty getDiffculty() {
-        return diffculty;
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
-    public void setDiffculty(Diffculty diffculty) {
-        this.diffculty = diffculty;
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public String getTitle() {
@@ -74,7 +74,7 @@ public class Problem extends SugarRecord<Problem> implements Serializable{
                 ", status=" + status +
                 ", url='" + url + '\'' +
                 ", title='" + title + '\'' +
-                ", diffculty=" + diffculty +
+                ", difficulty=" + difficulty +
                 '}';
     }
 

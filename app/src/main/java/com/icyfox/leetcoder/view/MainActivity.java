@@ -11,13 +11,12 @@ import android.widget.ProgressBar;
 
 import com.icyfox.leetcoder.R;
 import com.icyfox.leetcoder.adapter.ProblemAdapter;
-import com.icyfox.leetcoder.bean.Diffculty;
+import com.icyfox.leetcoder.bean.Difficulty;
 import com.icyfox.leetcoder.bean.Problem;
 import com.icyfox.leetcoder.bean.Status;
 import com.icyfox.leetcoder.utils.BaseActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
-import com.orm.SugarDb;
 import com.orm.SugarRecord;
 
 import org.apache.http.Header;
@@ -91,7 +90,7 @@ public class MainActivity extends BaseActivity {
                 problem.setTitle(tds.get(2).getElementsByTag("a").get(0).text());
                 problem.setUrl(tds.get(2).getElementsByTag("a").get(0).attr("href"));
                 problem.setAcceptance( (int)(Double.parseDouble(tds.get(3).text().replace("%", "")) * 10 ));
-                problem.setDiffculty(Diffculty.fromInteger( Integer.parseInt(tds.get(4).attr("value"))));
+                problem.setDifficulty(Difficulty.fromInteger(Integer.parseInt(tds.get(4).attr("value"))));
             }
             if (!problem.empty()) {
                 problems.add(problem);

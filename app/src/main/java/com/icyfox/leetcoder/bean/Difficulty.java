@@ -3,10 +3,10 @@ package com.icyfox.leetcoder.bean;
 /**
  * Created by icyfox on 2015/3/26.
  */
-public enum Diffculty {
+public enum Difficulty {
     EASY, MEDIUM, HARD;
 
-    public static Diffculty fromInteger(int x) {
+    public static Difficulty fromInteger(int x) {
         switch(x) {
             case 1:
                 return EASY;
