@@ -25,7 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -45,14 +45,14 @@ public class MainActivity extends BaseActivity {
 
     private void init(){
         list = (ListView) findViewById(R.id.problemlist);
-        problems = new ArrayList<>();
+        problems = new LinkedList<>();
         adapter = new ProblemAdapter(this, problems);
         list.setAdapter(adapter);
         list.setEmptyView(findViewById(R.id.ll_empty));
         list.setOnItemClickListener(itemClick);
 
-        List<Problem> dbList = SugarRecord.listAll(Problem.class);
-        problems.addAll(dbList);
+        List<Problem> localCachedProblems = SugarRecord.listAll(Problem.class);
+        problems.addAll(localCachedProblems);
         adapter.notifyDataSetChanged();
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -78,11 +78,10 @@ public class MainActivity extends BaseActivity {
      */
     private void resolveProblem(String html){
         Document doc = Jsoup.parse(html);
-        Elements elems = doc.getElementById("problemList").select("tr");
-        for (int i=0;i<elems.size();i++){
-            Element elem = elems.get(i);
-            Elements tds = elem.select("td");
+        Elements problemNodes = doc.getElementById("problemList").select("tr");
+        for (Element problemNode : problemNodes){
 
+            Elements tds = problemNode.select("td");
             Problem problem = new Problem();
             if (tds.size() > 0) {
                 problem.setStatus(Status.fromString(tds.get(0).getElementsByTag("span").get(0).className()));
