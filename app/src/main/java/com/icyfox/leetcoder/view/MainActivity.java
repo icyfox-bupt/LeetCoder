@@ -94,8 +94,8 @@ public class MainActivity extends BaseActivity {
             if (!problem.empty()) {
                 problems.add(problem);
             }
-            Problem.saveInTx(problems);
         }
+        Problem.saveInTx(problems);
     }
 
     private AdapterView.OnItemClickListener itemClick = new AdapterView.OnItemClickListener() {
