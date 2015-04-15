@@ -10,7 +10,7 @@
         android:id="@+id/problemlist" />
 
     <LinearLayout
-        android:id="@+id/ll_empty"
+        android:id="@+id/problem_loading_view"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
