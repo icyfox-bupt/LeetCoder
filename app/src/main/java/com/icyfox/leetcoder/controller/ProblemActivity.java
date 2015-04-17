@@ -1,4 +1,4 @@
-package com.icyfox.leetcoder.view;
+package com.icyfox.leetcoder.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,14 +19,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
- * Activity show problem.
+ * Activity show Problem.
  */
 public class ProblemActivity extends BaseActivity {
 
-    private String url;
-    private Problem problem;
-    private String BASE = "https://leetcode.com";
-    private WebView webview;
+    private final String BASE = "https://leetcode.com";
+    private Problem mProblem;
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +40,14 @@ public class ProblemActivity extends BaseActivity {
         getActionBar().setHomeButtonEnabled(true);
 
         Intent it = getIntent();
-        problem = (Problem)it.getSerializableExtra("problem");
-        webview = (WebView) findViewById(R.id.webView);
-        WebSettings settings = webview.getSettings();
+        mProblem = (Problem)it.getSerializableExtra("problem");
+        mWebView = (WebView) findViewById(R.id.webView);
+        WebSettings settings = mWebView.getSettings();
         //防止页面超出边界
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(BASE + problem.getUrl(), new TextHttpResponseHandler() {
+        client.get(BASE + mProblem.getUrl(), new TextHttpResponseHandler() {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -66,7 +65,7 @@ public class ProblemActivity extends BaseActivity {
         Document document = Jsoup.parse(html);
         String question = document.body().getElementsByClass("container").get(1)
                 .getElementsByClass("row").get(0).html();
-        webview.loadDataWithBaseURL(BASE, question, "text/html", "utf-8", "");
+        mWebView.loadDataWithBaseURL(BASE, question, "text/html", "utf-8", "");
     }
 
 
