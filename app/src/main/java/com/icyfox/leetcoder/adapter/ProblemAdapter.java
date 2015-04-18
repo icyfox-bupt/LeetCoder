@@ -37,6 +37,10 @@ public class ProblemAdapter extends BaseAdapter{
         this.mProblemList.add(problem);
     }
 
+    public List<Problem> getmProblems() {
+        return mProblemList;
+    }
+
     @Override
     public int getCount() {
         return mProblemList.size();

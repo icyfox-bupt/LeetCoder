@@ -3,6 +3,7 @@ package com.icyfox.leetcoder.controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,6 +14,8 @@ import com.icyfox.leetcoder.bean.Problem;
 import com.icyfox.leetcoder.model.ProblemModel;
 import com.icyfox.leetcoder.utils.BaseActivity;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -71,5 +74,23 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.sort:
+                //添加测试用Sort功能
+                List<Problem> mList = mProblemAdapter.getmProblems();
+                Collections.sort(mList, new Comparator<Problem>() {
+                    @Override
+                    public int compare(Problem lhs, Problem rhs) {
+                        return lhs.getAcceptance() - rhs.getAcceptance();
+                    }
+                });
+                mProblemAdapter.notifyDataSetChanged();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
