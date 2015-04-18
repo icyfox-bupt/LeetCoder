@@ -58,14 +58,45 @@ public class ProblemAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = mInflater.inflate(R.layout.item_problem, null);
-        TextView tvId, tvTitle;
-        tvId = (TextView) convertView.findViewById(R.id.tv_id);
-        tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
+        ViewHolder vh;
+        if (convertView == null){
+            vh = new ViewHolder();
+            convertView = mInflater.inflate(R.layout.item_problem, null);
+            vh.tvId = (TextView) convertView.findViewById(R.id.tv_id);
+            vh.tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
+            vh.tvDifficulty = (TextView) convertView.findViewById(R.id.tv_difficulty);
+            vh.tvAccept = (TextView) convertView.findViewById(R.id.tv_accept);
+            convertView.setTag(vh);
+        }else {
+            vh = (ViewHolder) convertView.getTag();
+        }
 
         Problem problem = mProblemList.get(position);
-        tvId.setText(problem.getPid() + "");
-        tvTitle.setText(problem.getTitle());
+        vh.tvId.setText(problem.getPid() + "");
+        vh.tvTitle.setText(problem.getTitle());
+        vh.tvDifficulty.setText(problem.getDifficulty().toString());
+        vh.tvAccept.setText( ((double)problem.getAcceptance() / 10 ) +"%");
+
+        switch (problem.getDifficulty()){
+            case HARD:
+                vh.tvDifficulty.setTextColor(getColor(R.color.hard));
+                break;
+            case EASY:
+                vh.tvDifficulty.setTextColor(getColor(R.color.easy));
+                break;
+            case MEDIUM:
+                vh.tvDifficulty.setTextColor(getColor(R.color.medium));
+                break;
+        }
+
         return convertView;
+    }
+
+    class ViewHolder{
+        TextView tvId, tvTitle, tvDifficulty, tvAccept;
+    }
+
+    private int getColor(int res){
+        return mContext.getResources().getColor(res);
     }
 }

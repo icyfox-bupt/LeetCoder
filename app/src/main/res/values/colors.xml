@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_text">#000</color>
+    <color name="easy">#0f0</color>
+    <color name="hard">#f00</color>
+    <color name="medium">#00f</color>
+</resources>
