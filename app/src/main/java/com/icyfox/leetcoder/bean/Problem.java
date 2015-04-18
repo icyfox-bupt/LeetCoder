@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.orm.SugarRecord;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by icyfox on 2015/3/26.
@@ -17,6 +19,44 @@ public class Problem extends SugarRecord<Problem> implements Serializable{
     private String url;
     private String title;
     private Difficulty difficulty;
+    private int accepted;
+    private int submissions;
+    private String content;
+    private List<String> tags;
+
+    public int getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(int accepted) {
+        this.accepted = accepted;
+    }
+
+    public int getSubmissions() {
+        return submissions;
+    }
+
+    public void setSubmissions(int submissions) {
+        this.submissions = submissions;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void addTags(String tag) {
+        if (this.tags == null)
+            this.tags = new ArrayList<>();
+        tags.add(tag);
+    }
 
     public int getPid() {
         return pid;

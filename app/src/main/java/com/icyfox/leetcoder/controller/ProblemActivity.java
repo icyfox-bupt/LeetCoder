@@ -17,6 +17,8 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * Activity show Problem.
@@ -63,6 +65,23 @@ public class ProblemActivity extends BaseActivity {
 
     private void resolveProblem(String html) {
         Document document = Jsoup.parse(html);
+        Element frame = document.body().getElementsByClass("container").get(1)
+                .getElementsByClass("row").get(0);
+        String question = frame.html();
+
+        /** 给problem添加详情信息 **/
+        int ac = Integer.parseInt(frame.getElementsByClass("total-ac").get(0).getElementsByTag("strong").text());
+        int sub = Integer.parseInt(frame.getElementsByClass("total-submit").get(0).getElementsByTag("strong").text());
+        String content = frame.getElementsByClass("question-content").html();
+        Elements tags = frame.getElementsByClass("btn-primary");
+        for (int i = 0; i < tags.size(); i++)
+            problem.addTags(tags.get(i).html());
+        problem.setAccepted(ac);
+        problem.setSubmissions(sub);
+        problem.setContent(content);
+        /** 给problem添加详情信息结束 **/
+
+        webview.loadDataWithBaseURL(BASE, question, "text/html", "utf-8", "");
         String question = document.body().getElementsByClass("container").get(1)
                 .getElementsByClass("row").get(0).html();
         mWebView.loadDataWithBaseURL(BASE, question, "text/html", "utf-8", "");
