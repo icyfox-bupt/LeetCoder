@@ -54,13 +54,15 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
+    /**
+     * 点击事件使用数据库里的id (Long) 来进行跳转传值
+     */
     private AdapterView.OnItemClickListener itemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Problem problem = (Problem) mProblemAdapter.getItem(position);
-            Intent it = new Intent(MainActivity.this.getApplicationContext(), ProblemActivity.class);
-            it.putExtra("problem", problem);
+            Intent it = new Intent(getApplicationContext(), ProblemActivity.class);
+            it.putExtra("pid", problem.getId());
             startActivity(it);
         }
     };

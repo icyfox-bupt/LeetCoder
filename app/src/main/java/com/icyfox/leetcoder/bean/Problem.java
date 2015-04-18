@@ -3,13 +3,13 @@ package com.icyfox.leetcoder.bean;
 import android.text.TextUtils;
 
 import com.orm.SugarRecord;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by icyfox on 2015/3/26.
+ * Problem Bean
  */
 public class Problem extends SugarRecord<Problem> implements Serializable{
 

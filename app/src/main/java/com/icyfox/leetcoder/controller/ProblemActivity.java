@@ -28,6 +28,7 @@ public class ProblemActivity extends BaseActivity {
     private final String BASE = "https://leetcode.com";
     private Problem mProblem;
     private WebView mWebView;
+    private long pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,9 @@ public class ProblemActivity extends BaseActivity {
         getActionBar().setHomeButtonEnabled(true);
 
         Intent it = getIntent();
-        mProblem = (Problem)it.getSerializableExtra("problem");
+        pid = it.getLongExtra("pid", 0);
+        if (pid == 0) longToast("未获得有效数据");
+        mProblem = Problem.findById(Problem.class, pid);
         mWebView = (WebView) findViewById(R.id.webView);
         WebSettings settings = mWebView.getSettings();
         //防止页面超出边界
@@ -75,15 +78,13 @@ public class ProblemActivity extends BaseActivity {
         String content = frame.getElementsByClass("question-content").html();
         Elements tags = frame.getElementsByClass("btn-primary");
         for (int i = 0; i < tags.size(); i++)
-            problem.addTags(tags.get(i).html());
-        problem.setAccepted(ac);
-        problem.setSubmissions(sub);
-        problem.setContent(content);
+            mProblem.addTags(tags.get(i).html());
+        mProblem.setAccepted(ac);
+        mProblem.setSubmissions(sub);
+        mProblem.setContent(content);
+        mProblem.save();
         /** 给problem添加详情信息结束 **/
 
-        webview.loadDataWithBaseURL(BASE, question, "text/html", "utf-8", "");
-        String question = document.body().getElementsByClass("container").get(1)
-                .getElementsByClass("row").get(0).html();
         mWebView.loadDataWithBaseURL(BASE, question, "text/html", "utf-8", "");
     }
 
